@@ -12,12 +12,12 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "Hazard",
 "language": "GDScript",
-"path": "res://Hazard.gd"
+"path": "res://game/Map/Hazard/Hazard.gd"
 }, {
 "base": "Node",
 "class": "Room",
 "language": "GDScript",
-"path": "res://Room.gd"
+"path": "res://game/Map/Room.gd"
 } ]
 _global_script_class_icons={
 "Hazard": "",
@@ -28,6 +28,10 @@ _global_script_class_icons={
 
 config/name="spacefrog"
 config/icon="res://icon.png"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "gut" )
 
 [rendering]
 

@@ -33,31 +33,36 @@ const SECONDARY = [
 
 enum COMBO_EFFECTS { NOTHING, END, DEADLY }
 
-var type
-var _is_active = false
-var _is_deadly = false
-var _is_draining = false
+var type setget set_type
+var is_active = true
+var is_deadly = false
+var is_draining = false
+
+
+func _init(type, is_active = true):
+    self.type = type
+    self.is_active = is_active
 
 
 # A combo effect is applied to the hazard and the player within the room.
 func get_combo_effect(other):
     var effect
     match(type):
-        FIRE: effect = get_combo_FIRE(other.type)
-        ELECTRICITY: effect = get_combo_ELECTRICITY(other.type)
+        FIRE: effect = _get_combo_FIRE(other.type)
+        ELECTRICITY: effect = _get_combo_ELECTRICITY(other.type)
         _: effect = COMBO_EFFECTS.NOTHING
     
     if effect == COMBO_EFFECTS.END:
-        _is_active = false
+        is_active = false
     elif effect == COMBO_EFFECTS.DEADLY:
         # Set both combined hazards to deadly.
-        set_deadly(true)
-        other.set_deadly(true)
+        is_deadly = true
+        other.is_deadly = true
     
     return effect
 
 
-func get_combo_FIRE(other):
+func _get_combo_FIRE(other):
     match(other):
         FLOODING, VACUUM:
             return COMBO_EFFECTS.END
@@ -65,7 +70,7 @@ func get_combo_FIRE(other):
             return COMBO_EFFECTS.NOTHING
 
 
-func get_combo_ELECTRICITY(other):
+func _get_combo_ELECTRICITY(other):
     match(other):
         FLOODING:
             return COMBO_EFFECTS.DEADLY
@@ -73,7 +78,7 @@ func get_combo_ELECTRICITY(other):
             return COMBO_EFFECTS.NOTHING
 
 
-func get_combo_FLOODING(other):
+func _get_combo_FLOODING(other):
     match(other):
         ELECTRICITY:
             return COMBO_EFFECTS.DEADLY
@@ -81,5 +86,9 @@ func get_combo_FLOODING(other):
             return COMBO_EFFECTS.NOTHING
 
 
-func set_deadly(is_deadly):
-    _is_deadly = is_deadly
+func set_type(type):
+    match(type):
+        FIRE, ELECTRICITY, VACUUM:
+            is_deadly = true
+        _:
+            is_deadly = false
