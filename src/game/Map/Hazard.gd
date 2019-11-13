@@ -39,10 +39,10 @@ var is_deadly = false
 var is_draining = false
 
 
-func _init(type, is_active = true):
-    self.type = type
-    self.is_active = is_active
-
+func _init(new_type, default_active = true):
+    self.type = new_type
+    self.is_active = default_active
+    
 
 # A combo effect is applied to the hazard and the player within the room.
 func get_combo_effect(other):
@@ -54,6 +54,7 @@ func get_combo_effect(other):
     
     if effect == COMBO_EFFECTS.END:
         is_active = false
+        is_deadly = false
     elif effect == COMBO_EFFECTS.DEADLY:
         # Set both combined hazards to deadly.
         is_deadly = true
@@ -86,7 +87,9 @@ func _get_combo_FLOODING(other):
             return COMBO_EFFECTS.NOTHING
 
 
-func set_type(type):
+func set_type(new_type):
+    type = new_type
+    
     match(type):
         FIRE, ELECTRICITY, VACUUM:
             is_deadly = true
