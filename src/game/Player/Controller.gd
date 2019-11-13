@@ -30,6 +30,7 @@ var _jump_direction = 1
 var _gravity_direction = Vector3.DOWN
 
 onready var _jump_preview:ImmediateGeometry = $JumpPreview
+onready var _mesh:MeshInstance = $MeshInstance
 onready var _collision:CollisionShape = $CollisionShape
 
 
@@ -58,8 +59,8 @@ func _physics_process(delta):
         elif is_charging_jump: charge_jump(direction, on_wall)                
         else: move(direction, is_sprinting)
         
-        #if is_moving_right: _sprite.flip_h = false
-        #elif is_moving_left: _sprite.flip_h = true
+        if is_moving_right: _mesh.rotation_degrees = Vector3(0, -90, 0)
+        elif is_moving_left: _mesh.rotation_degrees = Vector3(0, 90, 0)
     
     else:
         if is_moving_right:
