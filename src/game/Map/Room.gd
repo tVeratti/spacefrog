@@ -1,4 +1,4 @@
-extends Node
+extends Spatial
 
 class_name Room
 
@@ -7,8 +7,8 @@ var hazard:Hazard
 export(NodePath) var left_door_path
 export(NodePath) var right_door_path
 
-var left_door:Door
-var right_door:Door
+var left_door
+var right_door
 
 
 func _ready():
