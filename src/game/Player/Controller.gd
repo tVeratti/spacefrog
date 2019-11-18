@@ -28,10 +28,13 @@ var _jump_force = 0
 var _jump_direction = 1
 
 var _gravity_direction = Vector3.DOWN
+var _is_climbing = false
+var _prev_grav = _gravity_direction
 
 onready var _jump_preview:ImmediateGeometry = $JumpPreview
 onready var _mesh:MeshInstance = $MeshInstance
 onready var _collision:CollisionShape = $CollisionShape
+onready var _ray:RayCast = $RayCast
 
 
 # Called when the node enters the scene tree for the first time.
@@ -62,7 +65,12 @@ func _physics_process(delta):
         if is_moving_right: _mesh.rotation_degrees = Vector3(0, -90, 0)
         elif is_moving_left: _mesh.rotation_degrees = Vector3(0, 90, 0)
     
+    elif on_wall:
+        climb(direction, is_charging_jump)
+
     else:
+        _is_climbing = false
+        _gravity_direction = Vector3.DOWN
         if is_moving_right:
             _velocity.x += ACCELERATION_AIR
         elif is_moving_left:
@@ -70,15 +78,12 @@ func _physics_process(delta):
         else:
             _velocity.x = lerp(_velocity.x, 0, FRICTION_AIR)
     
-    if on_wall:
-        climb(direction, is_charging_jump)
-    else:
-        _gravity_direction = Vector3.DOWN
-
     _velocity += _gravity_direction * GRAVITY * delta
-    _velocity = move_and_slide(_velocity, Vector3.UP)
+    _ray.cast_to = _velocity.normalized() * 4
+    
+    _velocity = move_and_slide(Vector3(_velocity.x, _velocity.y, 0), Vector3.UP)
 
-        
+
 func charge_jump(direction, on_wall):
     # Update jump force (cumulative)
     # The jump forve will be applied to the jump velocity.
@@ -156,21 +161,26 @@ func move(direction, is_sprinting):
 
 func climb(direction, is_charging_jump):
     set_state(STATES.CLIMB)
-       
+  
     # Check if the player has collided with a surface.
     # Use the opposite of that surface's normal as the new gravity.
-    var collision = move_and_collide(_velocity, true, true, true)
-    if collision != null:
-         _gravity_direction = -collision.normal
+    var collision = test_move(transform, _velocity)
+    if collision:
+        if not _is_climbing:
+            _velocity = Vector3.ZERO
+            _is_climbing = true
+            _gravity_direction = -_ray.get_collision_normal()
     
     # Add a small amount of acceleration when climbing in either direction.
     if direction == 1:
         _velocity.y += SPEED_CLIMB * _gravity_direction.x
     elif direction == -1:
-         _velocity.y -= SPEED_CLIMB * _gravity_direction.x
+        _velocity.y -= SPEED_CLIMB * _gravity_direction.x
     else:
         _velocity.y = lerp(_velocity.y, 0, 0.15)
 
+#    var rotation = 90 if _velocity.y > 0 else -90
+#    rotation_degrees = Vector3(0, 0, rotation)
     # Clamp climbing velocity within maximum speed range
     _velocity.y = min(_velocity.y, SPEED_CLIMB)
     _velocity.y = max(_velocity.y, -SPEED_CLIMB)

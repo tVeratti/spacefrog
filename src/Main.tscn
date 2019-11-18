@@ -10,7 +10,7 @@
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.235853, -0.0176787, 0.206651 )
 
 [node name="Controller" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.06228, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.93362, 2.06228, 0 )
 
 [node name="Camera" type="Camera" parent="Controller"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 21.2708 )
@@ -21,5 +21,3 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5211, 0, 0 )
 [node name="Room2" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23.4695, 0, 0 )
 
-[node name="Room3" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -68.8778, 0, 0 )

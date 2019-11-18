@@ -4,13 +4,14 @@ const OPEN_SCALE = Vector3(1, 2, 0)
 const CLOSED_SCALE = Vector3(1, 5, 0)
 
 var is_open = false
+var is_touching = false
 
 onready var _main:MeshInstance = $Main
 onready var _tween:Tween = $Tween
 
 
 func _input(event):
-    if event.is_action_released("test") and not is_open:
+    if event.is_action_released("test") and not is_open and is_touching:
         open()
 
 
@@ -30,3 +31,12 @@ func open():
     
     # Connect the rooms and trigger hazard combinations.
     #left.connect_to(right)
+
+func _on_Area_body_entered(body):
+    if body is KinematicBody:
+        is_touching =  true
+
+
+func _on_Area_body_exited(body):
+    if body is KinematicBody:
+        is_touching =  false
