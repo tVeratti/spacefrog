@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://game/Map/Hold.gd" type="Script" id=1]
+[ext_resource path="res://game/Map/Floor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/Map/Rooms/Room_L_R.tscn" type="PackedScene" id=3]
+[ext_resource path="res://game/Map/Rooms/Room_R.tscn" type="PackedScene" id=4]
+
+[node name="Hold" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Floor" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.235853, -0.0176787, 0.206651 )
+
+[node name="Room_1" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5211, 0, 0 )
+right_room_path = NodePath("../Room_2")
+left_door_path = NodePath("../Room_1/DoorLeft")
+right_door_path = NodePath("../Room_1/DoorRight")
+
+[node name="Room_2" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 42.564, 0, 0 )
+left_room_path = NodePath("../Room_1")
+right_door_path = NodePath("../Room_2/DoorRight")
+
