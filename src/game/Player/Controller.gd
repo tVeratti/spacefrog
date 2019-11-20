@@ -162,22 +162,21 @@ func move(direction, is_sprinting):
 func climb(direction, is_charging_jump):
     set_state(STATES.CLIMB)
   
-    # Check if the player has collided with a surface.
-    # Use the opposite of that surface's normal as the new gravity.
-    var collision = test_move(transform, _velocity)
-    if collision:
-        if not _is_climbing:
-            _velocity = Vector3.ZERO
-            _is_climbing = true
-            _gravity_direction = -_ray.get_collision_normal()
+    if not _is_climbing:
+        _velocity = Vector3.ZERO
+        _is_climbing = true
+        _gravity_direction = -_ray.get_collision_normal()
     
-    # Add a small amount of acceleration when climbing in either direction.
-    if direction == 1:
-        _velocity.y += SPEED_CLIMB * _gravity_direction.x
-    elif direction == -1:
-        _velocity.y -= SPEED_CLIMB * _gravity_direction.x
+    if is_charging_jump:
+        pass
     else:
-        _velocity.y = lerp(_velocity.y, 0, 0.15)
+        # Add a small amount of acceleration when climbing in either direction.
+        if direction == 1:
+            _velocity.y += SPEED_CLIMB * _gravity_direction.x
+        elif direction == -1:
+            _velocity.y -= SPEED_CLIMB * _gravity_direction.x
+        else:
+            _velocity.y = lerp(_velocity.y, 0, 0.15)
 
 #    var rotation = 90 if _velocity.y > 0 else -90
 #    rotation_degrees = Vector3(0, 0, rotation)

@@ -12,13 +12,24 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.235853, -0.0176787, 0.206651 )
 
 [node name="Room_1" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5211, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -41.3297, 0, 0 )
 right_room_path = NodePath("../Room_2")
 left_door_path = NodePath("../Room_1/DoorLeft")
 right_door_path = NodePath("../Room_1/DoorRight")
 
 [node name="Room_2" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 42.564, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19.3508, 0, 0 )
 left_room_path = NodePath("../Room_1")
 right_door_path = NodePath("../Room_2/DoorRight")
+hazard_type = 3
 
+[node name="Room_3" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.58494, 0, 0 )
+left_room_path = NodePath("../Room_2")
+hazard_type = 1
+
+[node name="Room_4" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.80935, 20, 0 )
+left_door_path = NodePath("../Room_4/DoorLeft")
+right_door_path = NodePath("../Room_4/DoorRight")
+hazard_type = 5

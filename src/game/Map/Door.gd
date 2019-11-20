@@ -12,11 +12,14 @@ var is_touching = false
 var _right_ref
 var _left_ref
 
-var left:Room setget _set_left, _get_left
-var right:Room setget _set_right, _get_right
+var left setget _set_left, _get_left
+var right setget _set_right, _get_right
 
 onready var _main:MeshInstance = $Main
 onready var _tween:Tween = $Tween
+
+func _ready():
+    add_to_group("doors")
 
 
 func _input(event):
@@ -31,7 +34,6 @@ func open():
     
     # Connect the rooms and trigger hazard combinations.
     self.left.connect_to(self.right)
-    print("Open: ", self.left.name, " to ", self.right.name)
 
 
 func close():
@@ -56,13 +58,11 @@ func _tween_door():
     _tween.start()
 
 
-func _set_right(value:Room):
-    print('right ', value.name)
+func _set_right(value):
     _right_ref = value
 
 
-func _set_left(value:Room):
-    print('left', value.name)
+func _set_left(value):
     _left_ref = value
     
 

@@ -2,6 +2,7 @@ extends Spatial
 
 class_name Room
 
+var Text = load("res://game/Utility/Text.tscn")
 
 # External Connections (Siblings)
 export(NodePath) var left_room_path
@@ -10,7 +11,6 @@ var left_room:Room
 var right_room:Room
 
 onready var hold = get_parent()
-
 
 # Internal Connections (Children)
 export(NodePath) var left_door_path
@@ -21,12 +21,40 @@ var _right_door_ref
 var left_door setget , _get_left_door
 var right_door setget , _get_right_door
 
+# Room Hazard
 var hazard:Hazard
+export(Hazard.TYPES) var hazard_type
 
+onready var _area:Area = $Area
 
 func _ready():
     add_to_group("rooms")
-
+    
+    hazard = Hazard.new(hazard_type)
+    
+#    NONE,
+#    FIRE,
+#    ELECTRICITY,
+#    VACUUM,
+#    BULKHEADS,
+#    GRAVITY,
+#    FLOODING,
+#    FREEZING,
+#    KEY_CARD
+    
+    var colors = [
+        Color.white,
+        Color.red,
+        Color.yellow,
+        Color.purple,
+        Color.brown,
+        Color.cyan,
+        Color.aliceblue,
+        Color.blueviolet
+    ]
+    
+    $OmniLight.light_color = colors[hazard.type]
+    
 
 func initialize():
     # External Connections
@@ -40,15 +68,15 @@ func initialize():
     self.right_door.left = self
 
 
-func connect_to(other:Room):
-    if hazard != null and other.hazard != null:
+func connect_to(other):
+    if hazard is Hazard and other != null and other.hazard is Hazard:
         var combo_effect = hazard.get_combo_effect(other.hazard)
         if combo_effect == Hazard.COMBO_EFFECTS.DEADLY:
             print('u ded')
 
 
-func disconnect_from(other:Room):
-    if hazard != null and other.hazard != null:
+func disconnect_from(other):
+    if hazard is Hazard and other.hazard is Hazard:
         hazard.reset_effect()
         other.hazard.reset_effect()
 
@@ -74,5 +102,7 @@ func _get_right_door():
             _right_door_ref = self.right_room.right_door
         return _right_door_ref
 
-    
-    
+
+func _on_Area_body_entered(body):
+    if hazard.is_active and hazard.is_deadly:
+        print('U DED')

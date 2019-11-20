@@ -1,12 +1,21 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://game/Map/Rooms/Room.gd" type="Script" id=1]
 [ext_resource path="res://game/Map/Door.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/Map/Wall.tscn" type="PackedScene" id=3]
 
+[sub_resource type="BoxShape" id=1]
+
 [node name="Room_R" type="Spatial"]
 script = ExtResource( 1 )
 right_door_path = NodePath("DoorRight")
+
+[node name="Area" type="Area" parent="."]
+editor/display_folded = true
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+transform = Transform( 8.58987, 0, 0, 0, 8.50913, 0, 0, 0, 1.98205, 11.9758, 9, 0 )
+shape = SubResource( 1 )
 
 [node name="DoorRight" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, -0.026 )
@@ -25,4 +34,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.7811, 10.2623, 0 )
 light_energy = 3.5
 omni_range = 27.0
 omni_attenuation = 3.60501
-
+[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
