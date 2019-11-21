@@ -34,4 +34,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.7811, 10.2623, 0 )
 light_energy = 3.5
 omni_range = 27.0
 omni_attenuation = 3.60501
+
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

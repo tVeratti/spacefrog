@@ -9,7 +9,7 @@ const FRICTION_AIR = 0.05
 
 const SPEED_NORMAL = 30
 const SPEED_SPRINT = 60
-const SPEED_CLIMB = 10
+const SPEED_CLIMB = 30
 
 const MAX_JUMP_FORCE = 70
 const JUMP_CHARGE_RATE = 4

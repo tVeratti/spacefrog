@@ -12,3 +12,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -52.3971, 2.06228, 0 )
 
 [node name="Camera" type="Camera" parent="Controller"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 29.5185 )
+

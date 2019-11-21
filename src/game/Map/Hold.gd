@@ -6,9 +6,10 @@ func _ready():
     var rooms = get_tree().get_nodes_in_group("rooms")
     var doors = get_tree().get_nodes_in_group("doors")
     
+    # Connect all rooms & doors now that they have all been mounted.
     for room in rooms:
-        # Connect all rooms now that they have all been mounted.
-        room.initialize()
+        room.connect_nodes()
+
 
     for door in doors:
         if door.right == null:
@@ -16,9 +17,10 @@ func _ready():
         if door.left == null:
             door.left = self
 
-func connect_to(room):
+
+func open_to(room):
     pass
 
 
-func disconnect_from(room):
+func close_to(room):
     pass
