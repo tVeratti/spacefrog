@@ -47,7 +47,9 @@ func _ready():
         Color.blueviolet
     ]
     
-    _light.light_color = colors[hazard.type]
+    var material = SpatialMaterial.new()
+    material.albedo_color = colors[hazard.type]
+    _light.set_surface_material(0, material)
     
 
 func connect_nodes():
@@ -65,6 +67,8 @@ func connect_nodes():
     if _panel != null and panel_path != '':
         var corresponding_panel_room = get_node(panel_path)
         _panel.connect_to(corresponding_panel_room)
+    elif _panel != null:
+        _panel.queue_free()
 
 
 func open_to(other):
@@ -94,7 +98,7 @@ func deactivate_hazard():
         if self.right_door.is_open:
             close_to(self.right_room)
         
-        _light.omni_range = 0
+        _light.visible = false
 
 
 func activate_hazard():
@@ -107,7 +111,7 @@ func activate_hazard():
         if self.right_door.is_open:
             open_to(self.right_room)
             
-        _light.omni_range = 20
+        _light.visible = true
 
 
 func _get_left_door():

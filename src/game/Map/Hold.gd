@@ -1,6 +1,7 @@
 extends Spatial
 
 var hazard = Hazard.new(Hazard.TYPES.NONE)
+var is_within = true
 
 func _ready():
     var rooms = get_tree().get_nodes_in_group("rooms")

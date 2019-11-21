@@ -3,15 +3,16 @@
 [sub_resource type="CubeMesh" id=1]
 
 [sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0.309804, 0.309804, 0.309804, 1 )
-metallic = 0.61
-metallic_specular = 0.55
+albedo_color = Color( 0.933333, 0.933333, 0.933333, 1 )
+metallic = 0.92
+metallic_specular = 0.36
 
 [sub_resource type="ConvexPolygonShape" id=3]
 points = PoolVector3Array( -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1 )
 
 [node name="Wall" type="MeshInstance"]
 transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 3, 0, 8, 0 )
+use_in_baked_light = true
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
@@ -19,4 +20,3 @@ material/0 = SubResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
 shape = SubResource( 3 )
-
