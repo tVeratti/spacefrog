@@ -4,7 +4,7 @@ const ACCELERATION = 10
 const ACCELERATION_AIR = 0.2
 const GRAVITY = 100
 
-const FRICTION = 0.2
+const FRICTION = 0.4
 const FRICTION_AIR = 0.05
 
 const SPEED_NORMAL = 30
@@ -62,8 +62,8 @@ func _physics_process(delta):
         elif is_charging_jump: charge_jump(direction, on_wall)                
         else: move(direction, is_sprinting)
         
-        if is_moving_right: _mesh.rotation_degrees = Vector3(0, -90, 0)
-        elif is_moving_left: _mesh.rotation_degrees = Vector3(0, 90, 0)
+        if is_moving_right: _mesh.rotation_degrees = Vector3(0, 0, 0)
+        elif is_moving_left: _mesh.rotation_degrees = Vector3(0, 180, 0)
     
     elif on_wall:
         climb(direction, is_charging_jump)

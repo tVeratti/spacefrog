@@ -32,7 +32,7 @@ transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 3, 12, 19, 0 )
 [node name="Wall4" parent="." instance=ExtResource( 3 )]
 transform = Transform( 10, 0, 0, 0, 9, 0, 0, 0, 1, 12, 9, -4 )
 
-[node name="OmniLight" type="MeshInstance" parent="."]
+[node name="TypeIndicator" type="MeshInstance" parent="."]
 transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 1, 12, 17, -2.9 )
 cast_shadow = 0
 use_in_baked_light = true

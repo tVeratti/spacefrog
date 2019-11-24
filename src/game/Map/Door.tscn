@@ -50,6 +50,7 @@ shape = SubResource( 3 )
 
 [node name="Indicator" type="MeshInstance" parent="."]
 transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.967191, 3.2122, 3.02217 )
+cast_shadow = 0
 mesh = SubResource( 5 )
 material/0 = null
 

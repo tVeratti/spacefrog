@@ -29,7 +29,7 @@ export(NodePath) var panel_path
 onready var _panel = $Panel
 
 onready var _area:Area = $Area
-onready var _light:OmniLight = $OmniLight
+onready var _light:MeshInstance = $TypeIndicator
 
 func _ready():
     add_to_group("rooms")
