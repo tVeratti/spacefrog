@@ -4,7 +4,7 @@
 
 [sub_resource type="SpatialMaterial" id=2]
 emission_enabled = true
-emission = Color( 1, 1, 1, 1 )
+emission = Color( 0.682353, 0.92549, 1, 1 )
 emission_energy = 1.0
 emission_operator = 0
 emission_on_uv2 = false
@@ -17,11 +17,3 @@ use_in_baked_light = true
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
-[node name="SpotLight_Out" type="SpotLight" parent="."]
-transform = Transform( -0.915711, 0, -0.401837, 0, 1, 0, 0.401837, 0, -0.915711, -4, 0, 0.5 )
-light_color = Color( 0.839216, 0.94902, 1, 1 )
-light_energy = 0.9
-light_indirect_energy = 10.0
-light_specular = 0.0
-spot_range = 15.6
-spot_angle = 89.99

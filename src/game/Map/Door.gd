@@ -16,7 +16,6 @@ var left setget _set_left, _get_left
 var right setget _set_right, _get_right
 
 onready var _main:MeshInstance = $Main
-onready var _indicator:MeshInstance = $Indicator
 onready var _tween:Tween = $Tween
 
 func _ready():
@@ -32,7 +31,7 @@ func _input(event):
 func open():
     is_open = true
     _tween_door()
-    _update_indicator()
+    #_update_indicator()
     
     # Connect the rooms and trigger hazard combinations.
     self.left.open_to(self.right)
@@ -41,16 +40,16 @@ func open():
 func close():
     is_open = false
     _tween_door()
-    _update_indicator()
+    #_update_indicator()
     
     # Connect the rooms and trigger hazard combinations.
-    self.left.close_to(self.right)
+    #self.left.close_to(self.right)
 
 
-func _update_indicator():
-    var material = SpatialMaterial.new()
-    material.albedo_color = Color.green if is_open else Color.white
-    _indicator.set_surface_material(0, material)
+#func _update_indicator():
+#    var material = SpatialMaterial.new()
+#    material.albedo_color = Color.green if is_open else Color.white
+#    _indicator.set_surface_material(0, material)
 
 
 func _tween_door():

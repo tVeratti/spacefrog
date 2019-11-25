@@ -9,6 +9,7 @@
 script = ExtResource( 1 )
 
 [node name="Floor" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31172, 0 )
 
 [node name="Room_1" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -41.0912, 0, 0 )
@@ -17,7 +18,7 @@ left_door_path = NodePath("../Room_1/DoorLeft")
 right_door_path = NodePath("../Room_1/DoorRight")
 
 [node name="Room_2" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19.3508, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0 )
 left_room_path = NodePath("../Room_1")
 right_door_path = NodePath("../Room_2/DoorRight")
 hazard_type = 3
@@ -39,3 +40,4 @@ panel_path = NodePath("../Room_3")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.159, 20, 0 )
 left_room_path = NodePath("../Room_4")
 hazard_type = 5
+

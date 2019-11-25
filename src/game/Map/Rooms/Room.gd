@@ -24,12 +24,15 @@ var is_within = false
 # Room Hazard
 var hazard:Hazard
 export(Hazard.TYPES) var hazard_type
+var is_deadly setget , _get_is_deadly
 
 export(NodePath) var panel_path
 onready var _panel = $Panel
 
 onready var _area:Area = $Area
 onready var _light:MeshInstance = $TypeIndicator
+onready var _focus:Spatial = $FocusTarget
+var camera:Camera
 
 func _ready():
     add_to_group("rooms")
@@ -72,45 +75,31 @@ func connect_nodes():
 
 
 func open_to(other):
-    if hazard is Hazard and other != null and other.hazard is Hazard:
-        var combo_effect = hazard.get_combo_effect(other.hazard)
-        
-        if not hazard.is_active: deactivate_hazard()
-        if not other.hazard.is_active: other.deactivate_hazard()
-        
-        if combo_effect == Hazard.COMBO_EFFECTS.DEADLY and is_within or other.is_within:
-            print('u ded')
-
-
-func close_to(other):
-    if hazard is Hazard and other.hazard is Hazard:
-        hazard.reset_effect()
-        other.hazard.reset_effect()
+    var self_effect = hazard.get_combo_effect(other.hazard)
+    var other_effect = other.hazard.get_combo_effect(hazard)
+    
+    if self_effect == Hazard.COMBO_EFFECTS.END:
+        deactivate_hazard()
+    
+    if other_effect == Hazard.COMBO_EFFECTS.END:
+        other.deactivate_hazard()
+    
+    if self_effect == Hazard.COMBO_EFFECTS.DEADLY or \
+       other_effect == Hazard.COMBO_EFFECTS.DEADLY:
+        print('u ded')
 
 
 func deactivate_hazard():
     if hazard is Hazard:
         hazard.deactivate()
-        
-        if self.left_door.is_open:
-            close_to(self.left_room)
-        
-        if self.right_door.is_open:
-            close_to(self.right_room)
-        
+        camera.start_cinematic_target(_focus)
         _light.visible = false
 
 
 func activate_hazard():
     if hazard is Hazard:
         hazard.activate()
-        
-        if self.left_door.is_open:
-            open_to(self.left_room)
-        
-        if self.right_door.is_open:
-            open_to(self.right_room)
-            
+        camera.start_cinematic_target(_focus)
         _light.visible = true
 
 
@@ -134,11 +123,30 @@ func _get_right_door():
         else:
             _right_door_ref = self.right_room.right_door
         return _right_door_ref
+            
+
+func _get_is_deadly():
+    if hazard.is_deadly and hazard.is_active:
+        return true
+    
+    if self.left_door.is_open:
+        var left_room = self.left_door.left
+        var left_effect = hazard.get_combo_effect(left_room.hazard)
+        if left_effect == Hazard.COMBO_EFFECTS.DEADLY:
+            return true
+    
+    if self.right_door.is_open:
+        var right_room = self.right_door.right
+        var right_effect = hazard.get_combo_effect(right_room.hazard)
+        if right_effect == Hazard.COMBO_EFFECTS.DEADLY:
+                return true
+    
+    return false
 
 
 func _on_Area_body_entered(body):
     is_within = true
-    if hazard.is_active and hazard.is_deadly:
+    if self.is_deadly:
         print('U DED')
 
 

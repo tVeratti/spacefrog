@@ -4,11 +4,13 @@ var hazard = Hazard.new(Hazard.TYPES.NONE)
 var is_within = true
 
 func _ready():
+    var camera = get_tree().get_nodes_in_group("camera")[0]
     var rooms = get_tree().get_nodes_in_group("rooms")
     var doors = get_tree().get_nodes_in_group("doors")
     
     # Connect all rooms & doors now that they have all been mounted.
     for room in rooms:
+        room.camera = camera
         room.connect_nodes()
 
 

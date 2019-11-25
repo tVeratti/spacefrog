@@ -1,15 +1,18 @@
 extends KinematicBody
 
+const ROTATION_RIGHT = Vector3(0, 0, 0)
+const ROTATION_LEFT = Vector3(0, 180, 0)
+
 const ACCELERATION = 10
 const ACCELERATION_AIR = 0.2
 const GRAVITY = 100
 
-const FRICTION = 0.4
+const FRICTION = 1
 const FRICTION_AIR = 0.05
 
-const SPEED_NORMAL = 30
+const SPEED_NORMAL = 20
 const SPEED_SPRINT = 60
-const SPEED_CLIMB = 30
+const SPEED_CLIMB = 20
 
 const MAX_JUMP_FORCE = 70
 const JUMP_CHARGE_RATE = 4
@@ -32,7 +35,7 @@ var _is_climbing = false
 var _prev_grav = _gravity_direction
 
 onready var _jump_preview:ImmediateGeometry = $JumpPreview
-onready var _mesh:MeshInstance = $MeshInstance
+onready var _model = $Model
 onready var _collision:CollisionShape = $CollisionShape
 onready var _ray:RayCast = $RayCast
 
@@ -59,11 +62,14 @@ func _physics_process(delta):
         
     if on_floor:
         if is_jumping: jump(direction)
-        elif is_charging_jump: charge_jump(direction, on_wall)                
-        else: move(direction, is_sprinting)
-        
-        if is_moving_right: _mesh.rotation_degrees = Vector3(0, 0, 0)
-        elif is_moving_left: _mesh.rotation_degrees = Vector3(0, 180, 0)
+        elif is_charging_jump:
+            charge_jump(direction, on_wall)
+            if _jump_velocity.x > 0: _model.rotation_degrees = ROTATION_RIGHT
+            elif _jump_velocity.x < 0: _model.rotation_degrees = ROTATION_LEFT               
+        else:
+            move(direction, is_sprinting)
+            if _velocity.x > 0: _model.rotation_degrees = ROTATION_RIGHT
+            elif _velocity.x < 0: _model.rotation_degrees = ROTATION_LEFT
     
     elif on_wall:
         climb(direction, is_charging_jump)
