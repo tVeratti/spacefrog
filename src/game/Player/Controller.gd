@@ -8,15 +8,15 @@ const ACCELERATION_AIR = 0.2
 const GRAVITY = 100
 
 const FRICTION = 1
-const FRICTION_AIR = 0.05
+const FRICTION_AIR = 0.02
 
 const SPEED_NORMAL = 20
 const SPEED_SPRINT = 60
 const SPEED_CLIMB = 20
 
 const MAX_JUMP_FORCE = 70
-const JUMP_CHARGE_RATE = 4
-const JUMP_CHARGE_DEADZONE = JUMP_CHARGE_RATE * 10
+const JUMP_CHARGE_RATE = 1
+const JUMP_CHARGE_DEADZONE = JUMP_CHARGE_RATE * 30
 const JUMP_VELOCITY_ACCELERATION = 0.2
 
 const JUMP_VELOCITY_MAXIMUM = 10
@@ -85,6 +85,8 @@ func _physics_process(delta):
             _velocity.x = lerp(_velocity.x, 0, FRICTION_AIR)
     
     _velocity += _gravity_direction * GRAVITY * delta
+    #_velocity.y = max(_velocity.y, -1)
+    
     _ray.cast_to = _velocity.normalized() * 4
     
     _velocity = move_and_slide(Vector3(_velocity.x, _velocity.y, 0), Vector3.UP)
@@ -98,15 +100,18 @@ func charge_jump(direction, on_wall):
     if _jump_force > JUMP_CHARGE_DEADZONE:
         if direction != 0:
             # Increase horizontal velocity
-            _jump_velocity.x += 0.1 * _jump_direction
-    
-        _jump_velocity.x = min(_jump_velocity.x, JUMP_VELOCITY_MAXIMUM)
-        _jump_velocity.x = max(_jump_velocity.x, -JUMP_VELOCITY_MAXIMUM)
+            _jump_velocity.x += 0.5 * _jump_direction
 
         # Slow down and crouch...
         _velocity.x = lerp(_velocity.x, 0, FRICTION)
         if abs(_velocity.x) < 200 and not on_wall:
             set_state(STATES.CROUCH)
+    else:
+        _jump_velocity.x = _velocity.x / 30
+    
+    _jump_velocity.x = min(_jump_velocity.x, JUMP_VELOCITY_MAXIMUM)
+    _jump_velocity.x = max(_jump_velocity.x, -JUMP_VELOCITY_MAXIMUM)
+    _jump_velocity.y = max(JUMP_VELOCITY_MAXIMUM - abs(_jump_velocity.x), JUMP_VELOCITY_MINIMUM)
     
     _jump_preview.clear()
     _jump_preview.begin(Mesh.PRIMITIVE_LINES)
@@ -163,7 +168,7 @@ func move(direction, is_sprinting):
     var max_speed = SPEED_SPRINT if is_sprinting else SPEED_NORMAL
     _velocity.x = min(_velocity.x, max_speed)
     _velocity.x = max(_velocity.x, -max_speed)
-
+    
 
 func climb(direction, is_charging_jump):
     set_state(STATES.CLIMB)

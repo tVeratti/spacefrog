@@ -1,11 +1,16 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://game/Player/Controller.gd" type="Script" id=1]
 [ext_resource path="res://game/Assets/Models/Frog.mesh" type="ArrayMesh" id=2]
 
-[sub_resource type="CapsuleShape" id=2]
+[sub_resource type="CapsuleShape" id=1]
 radius = 0.720533
 height = 2.12497
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+albedo_color = Color( 0, 1, 0.0862745, 1 )
 
 [node name="Controller" type="KinematicBody" groups=[
 "player",
@@ -24,13 +29,14 @@ material/3 = null
 material/4 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1.32449, 0, 1, 0, -4.37114e-08, 0, 0.845953, 0 )
-shape = SubResource( 2 )
+transform = Transform( -4.37114e-008, 0, -1, 0, 1.32449, 0, 1, 0, -4.37114e-008, 0, 0.845953, 0 )
+shape = SubResource( 1 )
 
 [node name="JumpPreview" type="ImmediateGeometry" parent="."]
+material_override = SubResource( 2 )
+cast_shadow = 0
 
 [node name="RayCast" type="RayCast" parent="."]
 enabled = true
 cast_to = Vector3( 5, 0, 0 )
 collide_with_areas = true
-

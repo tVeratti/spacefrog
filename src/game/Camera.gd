@@ -37,7 +37,7 @@ func _ready():
     set_target(_player)
 
 
-func _process(delta):
+func _physics_process(delta):
     # Move the camera to the target tile (x, y)
     var target = _target.translation
     var distance = translation.distance_to(target)
